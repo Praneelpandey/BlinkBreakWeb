@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlinkBreak | Spatial Computing</title>
+    <meta name="description"
+        content="BlinkBreak - Redefining spatial computing for iOS. A seamless command center for your next reality.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="grid-background"></div>
+    <div class="glow-orb"></div>
+    <div class="glow-orb secondary"></div>
+
+    <header class="top-nav">
+        <div class="logo">
+            <span class="mono-detail">[ SYS.ON ]</span>
+            <h1>BlinkBreak</h1>
+        </div>
+        <nav>
+            <a href="#features">Modules</a>
+            <a href="#specs">Specs</a>
+            <a href="#demo">Simulation</a>
+        </nav>
+        <button class="btn-primary">
+            <span class="btn-text">INITIALIZE</span>
+            <span class="btn-glow"></span>
+        </button>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title">Protect Your Eyes.<br>Play Smarter.</h2>
+                <p class="hero-subtitle">Step into the ultimate spatial combat simulator. Destroy digital eye strain
+                    using real-time ARKit facial tracking.</p>
+                <div class="hero-actions">
+                    <button class="btn-solid-cyan large">
+                        <span class="btn-text">Download on App Store</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="phone-frame hero-phone-frame">
+                    <div class="iphone-mockup-placeholder">
+                        <div class="dynamic-island" style="width: 110px; height: 32px; box-shadow: inset 0 0 3px rgba(255,255,255,0.15);"></div>
+                        <video autoplay loop muted playsinline class="mockup-video">
+                            <source src="./action-loop.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="social-proof">
+            <div class="glow-backdrop"></div>
+            <span class="mono-text cyan overline">GLOBALLY RECOGNIZED</span>
+            <h2 class="proof-headline">Apple Swift Student Challenge<br>2026 Winner</h2>
+        </section>
+
+        <section id="features" class="features">
+            <div class="section-header">
+                <span class="mono-text cyan">>> CORE_MODULES</span>
+                <h3>Engineered for Immersion</h3>
+            </div>
+            <div class="bento-grid">
+                <div class="hud-panel span-2">
+                    <div class="hud-scanline"></div>
+                    <div class="hud-icon">
+                        <!-- Crosshair icon -->
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <line x1="12" y1="9" x2="12" y2="15"></line>
+                            <line x1="9" y1="12" x2="15" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h4>Weaponized Blinking</h4>
+                    <p>Fire your laser cannons with a deliberate double-blink to replenish your tear film.</p>
+                    <span class="hud-tag">WPN_SYS</span>
+                </div>
+
+                <div class="hud-panel">
+                    <div class="hud-scanline"></div>
+                    <div class="hud-icon">
+                        <!-- Lock icon -->
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path
+                                d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V12a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h4>Secure Channel</h4>
+                    <p>100% on-device biometric processing. Your flight telemetry remains classified.</p>
+                    <span class="hud-tag">ENC_KEY</span>
+                </div>
+
+                <div class="hud-panel span-3">
+                    <div class="hud-scanline"></div>
+                    <div class="hud-icon">
+                        <!-- Evade/Dodge icon -->
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                        </svg>
+                    </div>
+                    <h4>Ghost Mode</h4>
+                    <p>Tilt your head to dodge obstacles, forcing physical neck movement to combat stiffness.</p>
+                    <span class="hud-tag">EVASION</span>
+                </div>
+            </div>
+        </section>
+        <section class="command-console">
+            <div class="section-header">
+                <span class="mono-text cyan">>> COMMAND_INTERFACE</span>
+                <h3>Spatial Console</h3>
+            </div>
+
+            <div class="console-stage">
+                <!-- Left Phone -->
+                <div class="console-mockup-wrapper left">
+                    <div class="phone-frame">
+                        <div class="console-mockup cyan-glow">
+                            <div class="dynamic-island"></div>
+                            <video autoplay loop muted playsinline class="mockup-video">
+                                <source src="setup-loop.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="mockup-label cyan mono-text">CALIBRATION</div>
+                </div>
+
+                <!-- Center Phone -->
+                <div class="console-mockup-wrapper center">
+                    <div class="phone-frame">
+                        <div class="console-mockup red-glow">
+                            <div class="dynamic-island"></div>
+                            <video autoplay loop muted playsinline class="mockup-video">
+                                <source src="action-loop.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="mockup-label red mono-text">COMBAT SIMULATION</div>
+                </div>
+
+                <!-- Right Phone -->
+                <div class="console-mockup-wrapper right">
+                    <div class="phone-frame">
+                        <div class="console-mockup cyan-glow">
+                            <div class="dynamic-island"></div>
+                            <video autoplay loop muted playsinline class="mockup-video">
+                                <source src="proof-loop.mp4" type="video/mp4">
+                            </video>
+                        </div>
+                    </div>
+                    <div class="mockup-label cyan mono-text">TELEMETRY REPORT</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="progression" class="progression-dashboard">
+            <div class="section-header">
+                <span class="mono-text cyan">>> PILOT_RECORD</span>
+                <h3>Career Telemetry</h3>
+            </div>
+
+            <div class="dashboard-container">
+                <div class="dashboard-sidebar">
+                    <div class="pilot-status">
+                        <h4>Level 1 Trainee</h4>
+                        <span class="mono-text dim">XP: 3,450 / 10,000</span>
+                        <div class="level-bar-bg">
+                            <div class="level-bar-fill"></div>
+                        </div>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="mono-text label">TOTAL_SESSIONS</span>
+                        <span class="mono-text value cyan">0042</span>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="mono-text label">ENEMIES_DESTROYED</span>
+                        <span class="mono-text value">1,893</span>
+                    </div>
+
+                    <div class="stat-box">
+                        <span class="mono-text label">BLINK_ACCURACY</span>
+                        <span class="mono-text value">94.2%</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-main">
+                    <h4>Modular Shipyard</h4>
+                    <div class="shipyard-grid">
+
+                        <div class="ship-card unlocked">
+                            <span class="mono-text status-badge unlocked">ACTIVE</span>
+                            <div class="ship-graphic">
+                                <!-- Minimalist Dart Ship SVG -->
+                                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <polygon points="50,10 90,80 50,70 10,80" fill="rgba(0, 229, 255, 0.1)"
+                                        stroke="var(--cyan)" />
+                                    <line x1="50" y1="10" x2="50" y2="70" stroke="var(--cyan)" />
+                                    <polygon points="40,80 50,90 60,80" fill="var(--cyan)" />
+                                </svg>
+                            </div>
+                            <h5 class="mono-text">Alpha Dart</h5>
+                            <p class="mono-text dim" style="font-size:0.7rem;">Light fighter. High maneuverability.</p>
+                        </div>
+
+                        <div class="ship-card locked">
+                            <span class="mono-text status-badge locked">LOCKED (LVL 10)</span>
+                            <div class="ship-graphic">
+                                <!-- Minimalist Cruiser Ship SVG -->
+                                <svg width="80" height="80" viewBox="0 0 100 100" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M30,30 L70,30 L80,60 L90,80 L50,75 L10,80 L20,60 Z"
+                                        fill="rgba(255,255,255,0.05)" stroke="#666" />
+                                    <rect x="40" y="10" width="20" height="20" fill="#666" />
+                                </svg>
+                            </div>
+                            <h5 class="mono-text">Omega Cruiser</h5>
+                            <p class="mono-text dim" style="font-size:0.7rem;">Heavy assault class. Dual cannons.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
