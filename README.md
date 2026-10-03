@@ -45,8 +45,11 @@ src/
     useInViewVideo.js    ← pause mockup videos offscreen (saves battery)
   components/
     PhoneMockup.jsx      ← reusable CSS iPhone frame + app-screen video
-    Nav, Hero, Ticker, HowItWorks, Features, BlinkLab,
+    Nav, Hero, Features, Flight, Beyond, BlinkLab,
     Science, Fleet, Specs, DownloadCTA, Footer
+
+`Flight` is the pinned scroll sequence (calibrate → combat → debrief) —
+it switches to a simple stacked layout under 768px via a matchMedia hook.
 public/
   media/                 ← portrait app-screen loops + poster frames (served as-is)
   og-cover.jpg           ← social share card

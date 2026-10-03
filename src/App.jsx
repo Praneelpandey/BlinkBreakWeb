@@ -1,6 +1,8 @@
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Features from './components/Features'
+import Flight from './components/Flight'
+import Beyond from './components/Beyond'
 import BlinkLab from './components/BlinkLab'
 import Science from './components/Science'
 import Fleet from './components/Fleet'
@@ -16,6 +18,8 @@ export default function App() {
       <main id="main">
         <Hero />
         <Features />
+        <Flight />
+        <Beyond />
         <BlinkLab />
         <Science />
         <Fleet />

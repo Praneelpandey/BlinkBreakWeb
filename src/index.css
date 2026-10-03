@@ -12,7 +12,7 @@
   --bg-alt: #f5f5f7;
   --ink: #1d1d1f;
   --ink-2: #6e6e73;
-  --ink-3: #86868b;
+  --ink-3: #757579; /* 4.6:1 on white — AA for small text */
   --accent: #5856d6; /* Apple system indigo — the app's violet, de-neoned */
   --accent-hover: #6e6ce0;
   --accent-soft: rgba(88, 86, 214, 0.1);
@@ -100,6 +100,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  overflow-x: clip; /* clip (not hidden) keeps position:sticky working */
   transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -255,14 +256,14 @@ button {
   transform: translateX(2px);
 }
 
-/* App Store badge — official silhouette, theme-aware */
+/* App Store badge — official mark proportions (120×40, ~8px radius) */
 .appstore-badge {
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  min-height: 48px;
+  gap: 9px;
+  min-height: 44px;
   padding: 9px 20px 9px 16px;
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--badge-bg);
   color: var(--badge-ink);
   transition: transform 0.22s var(--ease), opacity 0.22s ease;
@@ -281,23 +282,27 @@ button {
 }
 
 .appstore-badge-text small {
-  font-size: 11px;
-  letter-spacing: 0.02em;
+  font-size: 10px;
+  letter-spacing: 0.04em;
   opacity: 0.72;
 }
 
 .appstore-badge-text strong {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
 
 .appstore-badge--large {
-  padding: 12px 26px 12px 20px;
+  padding: 11px 24px 11px 19px;
+}
+
+.appstore-badge--large .appstore-badge-text small {
+  font-size: 11px;
 }
 
 .appstore-badge--large .appstore-badge-text strong {
-  font-size: 24px;
+  font-size: 21px;
 }
 
 /* ── 5. Navigation ─────────────────────────────────────────────── */
@@ -573,23 +578,11 @@ button {
   padding-block: var(--section-pad);
 }
 
-.feature--alt {
-  background: var(--bg-alt);
-}
-
 .feature-grid {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   align-items: center;
   gap: clamp(48px, 7vw, 104px);
-}
-
-.feature-grid--flip .feature-copy {
-  order: 2;
-}
-
-.feature-grid--flip .feature-visual {
-  order: 1;
 }
 
 .feature-title {
@@ -605,31 +598,6 @@ button {
   font-size: 19px;
   line-height: 1.55;
   max-width: 46ch;
-}
-
-.feature-facts {
-  display: flex;
-  gap: clamp(24px, 3vw, 40px);
-  margin-top: var(--s4);
-  padding-top: var(--s3);
-  border-top: 1px solid var(--line);
-}
-
-.fact {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.fact strong {
-  font-size: 21px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.fact span {
-  font-size: 13px;
-  color: var(--ink-3);
 }
 
 .feature-visual {
@@ -734,22 +702,16 @@ button {
   width: 2px;
   height: 2px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.55);
-  animation: star-twinkle 3.6s ease-in-out infinite;
-  animation-delay: calc(var(--i) * 0.6s);
+  background: rgba(255, 255, 255, 0.4);
   left: calc(36% + var(--i) * 11%);
   top: calc(16% + (var(--i) * 23% % 62%));
-}
-
-@keyframes star-twinkle {
-  0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.75; }
 }
 
 .demo-hintrow {
   display: flex;
   align-items: center;
-  gap: 14px;
+  flex-wrap: wrap;
+  gap: 10px 14px;
   margin-top: var(--s2);
   color: var(--ink-3);
   font-size: 13px;
@@ -827,12 +789,6 @@ button {
   border: 1px solid var(--line);
   background: var(--bg);
   color: var(--ink-2);
-  animation: tilt-swing 3.6s ease-in-out infinite;
-}
-
-@keyframes tilt-swing {
-  0%, 100% { transform: rotate(-12deg); }
-  50% { transform: rotate(12deg); }
 }
 
 .tilt-arrow {
@@ -872,6 +828,193 @@ button {
   border: none;
   background: var(--accent);
   color: #fff;
+}
+
+/* ── 10b. Flight — pinned "how it works" sequence ──────────────── */
+/* The game itself is dark: this band stays dark in both themes. */
+.flight {
+  --flight-ink: #f5f5f7;
+  --flight-mute: #a1a1a6;
+  --flight-faint: #86868b;
+  --flight-accent: #9c99ff;
+  background: #161617;
+  color: var(--flight-ink);
+  padding-block: var(--section-pad) 0;
+}
+
+.flight .eyebrow {
+  color: var(--flight-accent);
+}
+
+.flight .section-sub {
+  color: var(--flight-mute);
+}
+
+.flight-track {
+  position: relative;
+}
+
+.flight-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.flight-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+  width: 100%;
+}
+
+.flight-phones {
+  position: relative;
+  width: min(360px, 34vw, 38vh);
+  aspect-ratio: 9 / 19.5;
+}
+
+.flight-phone {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  pointer-events: none;
+}
+
+.flight-phone.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.flight-phone .phone {
+  width: 100%;
+  box-shadow: 0 32px 80px -28px rgba(0, 0, 0, 0.7);
+}
+
+.flight-captions {
+  display: grid;
+  align-content: start;
+}
+
+.flight-caption {
+  grid-area: 1 / 1;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+  pointer-events: none;
+}
+
+.flight-caption.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.flight-step {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--flight-accent);
+}
+
+.flight-caption h3 {
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: var(--s1) 0 var(--s2);
+}
+
+.flight-caption p {
+  color: var(--flight-mute);
+  font-size: 17px;
+  line-height: 1.55;
+  max-width: 42ch;
+}
+
+.flight-caption .flight-facts {
+  margin-top: var(--s2);
+  color: var(--flight-faint);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.flight-tabs {
+  display: flex;
+  gap: clamp(16px, 2.5vw, 32px);
+  margin-top: clamp(32px, 5vh, 56px);
+}
+
+.flight-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  min-width: 96px;
+  border-top: 2px solid rgba(255, 255, 255, 0.18);
+  color: var(--flight-faint);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.flight-tab-num {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.flight-tab:hover {
+  color: var(--flight-ink);
+}
+
+.flight-tab.is-active {
+  border-top-color: var(--flight-accent);
+  color: var(--flight-ink);
+}
+
+.flight-sentinels {
+  pointer-events: none;
+}
+
+.flight-sentinel {
+  height: 100vh;
+  height: 100svh;
+}
+
+@media (max-width: 767px) {
+  .flight {
+    padding-bottom: var(--section-pad);
+  }
+
+  .flight-stack {
+    display: grid;
+    gap: clamp(64px, 12vw, 96px);
+  }
+
+  .flight-stack-phase {
+    display: grid;
+    justify-items: center;
+    gap: var(--s4);
+    text-align: center;
+  }
+
+  .flight-stack-phase .flight-caption p {
+    margin-inline: auto;
+  }
+
+  .flight-stack-phase .phone {
+    width: min(280px, 74vw);
+  }
 }
 
 /* ── 11. Reflex lab ────────────────────────────────────────────── */
@@ -923,7 +1066,8 @@ button {
   padding: var(--s5);
 }
 
-.lab-content h3 {
+.lab-content h3,
+.lab-heading {
   font-size: 28px;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -1537,14 +1681,10 @@ button {
 
 /* ── 18. Responsive ────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .feature-grid,
-  .feature-grid--flip {
+  .feature-grid {
     grid-template-columns: 1fr;
     gap: var(--s6);
   }
-
-  .feature-grid--flip .feature-copy { order: 1; }
-  .feature-grid--flip .feature-visual { order: 2; }
 
   .feature-copy {
     text-align: center;
@@ -1552,10 +1692,6 @@ button {
 
   .feature-desc {
     margin-inline: auto;
-  }
-
-  .feature-facts {
-    justify-content: center;
   }
 
   .fleet-shell {
@@ -1640,6 +1776,14 @@ button {
     margin-inline: auto;
   }
 
+  .hero-facts {
+    row-gap: var(--s1);
+  }
+
+  .hero-facts span + span::before {
+    display: none;
+  }
+
   .hero-ctas {
     flex-direction: column;
     gap: var(--s2);
@@ -1652,11 +1796,6 @@ button {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: var(--s5);
-  }
-
-  .feature-facts {
-    flex-wrap: wrap;
-    gap: var(--s3);
   }
 
   .tilt-demo,

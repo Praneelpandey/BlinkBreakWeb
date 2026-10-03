@@ -20,7 +20,7 @@ export default function AppStoreBadge({ large = false, className = '' }) {
       className={`appstore-badge ${large ? 'appstore-badge--large' : ''} ${className}`}
       aria-label="Download BlinkBreak on the App Store"
     >
-      <AppleIcon size={large ? 32 : 24} />
+      <AppleIcon size={large ? 26 : 21} />
       <span className="appstore-badge-text">
         <small>Download on the</small>
         <strong>App Store</strong>

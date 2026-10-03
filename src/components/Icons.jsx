@@ -17,14 +17,6 @@ export function AppleIcon({ size = 20, ...props }) {
   )
 }
 
-export function ChevronRightIcon({ size = 15, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} strokeWidth={2.2} {...props}>
-      <path d="m9 5 7 7-7 7" />
-    </svg>
-  )
-}
-
 export function ChevronDownIcon({ size = 15, ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" {...base} strokeWidth={2.2} {...props}>

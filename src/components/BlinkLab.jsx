@@ -82,7 +82,7 @@ export default function BlinkLab() {
             {state === 'idle' && (
               <div className="lab-content">
                 <span className="lab-ring" />
-                <h3>Reflex simulator ready</h3>
+                <p className="lab-heading">Reflex simulator ready</p>
                 <p>Arm the target to begin</p>
                 <span className="btn btn--primary btn--sm lab-arm">Arm target</span>
               </div>
@@ -96,14 +96,14 @@ export default function BlinkLab() {
             {state === 'lock' && (
               <div className="lab-content">
                 <span className="lab-ring lab-ring--lock" />
-                <h3 className="lab-lock">BLINK NOW</h3>
+                <p className="lab-heading lab-lock">BLINK NOW</p>
                 <p>Click or hit space</p>
               </div>
             )}
             {state === 'early' && (
               <div className="lab-content">
                 <span className="lab-ring lab-ring--early" />
-                <h3 className="lab-early">Too early</h3>
+                <p className="lab-heading lab-early">Too early</p>
                 <p>Wait for lock-on, pilot</p>
               </div>
             )}
