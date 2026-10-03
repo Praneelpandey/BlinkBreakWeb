@@ -1,123 +1,98 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Reveal from './Reveal'
 
-export default function Features() {
-  const [laserActive, setLaserActive] = useState(false)
+/* ── Playable demo of the core mechanic ──
+   Same interaction as the game: a quick double-trigger fires. */
+function CannonDemo() {
+  const [charge, setCharge] = useState(0) // 0 idle · 1 first blink · 2 fired
+  const [shots, setShots] = useState(0)
+  const [firing, setFiring] = useState(false)
+  const lastBlinkRef = useRef(0)
+  const resetRef = useRef(null)
 
-  const triggerLaser = () => {
-    setLaserActive(true)
-    setTimeout(() => setLaserActive(false), 700)
+  const fire = () => {
+    const now = performance.now()
+    const isDouble = now - lastBlinkRef.current < 650
+    lastBlinkRef.current = now
+    clearTimeout(resetRef.current)
+
+    if (isDouble) {
+      lastBlinkRef.current = 0
+      setCharge(2)
+      setShots((s) => s + 1)
+      setFiring(true)
+      resetRef.current = setTimeout(() => {
+        setFiring(false)
+        setCharge(0)
+      }, 850)
+    } else {
+      setCharge(1)
+      resetRef.current = setTimeout(() => setCharge((c) => (c === 1 ? 0 : c)), 650)
+    }
   }
 
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key.toLowerCase() === 'b') fire()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      clearTimeout(resetRef.current)
+    }
+  })
+
   return (
-    <section id="features" className="features">
-      <div className="section-header center">
-        <span className="apple-overline">INNOVATIVE ARCHITECTURE</span>
-        <h3>Engineered for Precision & Ergonomics</h3>
-        <p className="section-subtext">
-          Every game mechanic directly translates into an ocular health intervention.
-        </p>
+    <div className={`demo ${firing ? 'is-firing' : ''}`}>
+      <div
+        className="demo-viewport"
+        onClick={fire}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && fire()}
+        aria-label="Try the double-blink trigger — activate twice quickly to fire the cannons"
+      >
+        <span className={`cannon-ship ${charge >= 1 ? 'is-charged' : ''}`} />
+        <span className="cannon-beam cannon-beam--a" />
+        <span className="cannon-beam cannon-beam--b" />
+        <span className="cannon-boom" />
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className="cannon-star" style={{ '--i': i }} />
+        ))}
       </div>
-
-      <div className="bento-grid">
-        {/* Card 1: Weaponized Blinking (Span 2) */}
-        <div className={`bento-card span-2 ${laserActive ? 'laser-firing' : ''}`} onClick={triggerLaser}>
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Clinical Innovation</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-                <line x1="12" y1="9" x2="12" y2="15" />
-                <line x1="9" y1="12" x2="15" y2="12" />
-              </svg>
-            </div>
-            <h4>Weaponized Blinking</h4>
-            <p>
-              Fire your laser cannons with an intentional double-blink. Each complete palpebral closure activates meibomian lipid secretion, spreading a fresh protective tear film over the cornea to eradicate dry eyes.
-            </p>
-          </div>
-
-          <div className="bento-interactive-footer">
-            <button className="btn-bento-action" onClick={(e) => { e.stopPropagation(); triggerLaser(); }}>
-              {laserActive ? 'Cannon Discharged ✓' : 'Test Double-Blink Laser'}
-            </button>
-            <span className="bento-stat-chip">Tear Layer Refresh +100%</span>
-          </div>
+      <div className="demo-hintrow">
+        <div className="cannon-meter" aria-hidden="true">
+          <span className={`cannon-cell ${charge >= 1 ? 'on' : ''}`} />
+          <span className={`cannon-cell ${charge >= 2 ? 'on' : ''}`} />
         </div>
+        <span className="demo-hint">
+          {charge === 0 && 'Double-tap the viewport — or press B twice.'}
+          {charge === 1 && 'Blink again…'}
+          {charge >= 2 && 'Cannons fired — tear film refreshed.'}
+        </span>
+        <span className="demo-shots">{shots} shots</span>
+      </div>
+    </div>
+  )
+}
 
-        {/* Card 2: Ghost Mode Head Tilt (Span 1) */}
-        <div className="bento-card">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Cervical Mobility</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <h4>Ghost Mode Evasion</h4>
-            <p>
-              Subtle head tilts navigate around obstacles, encouraging cervical spine mobility to release neck tension and postural stiffness.
-            </p>
-          </div>
-
-          <div className="bento-gyro-bar">
-            <div className="gyro-track"><div className="gyro-dot" /></div>
-            <span className="gyro-label">6-Axis Spatial Tracking</span>
-          </div>
-        </div>
-
-        {/* Card 3: Privacy by Design (Span 1) */}
-        <div className="bento-card">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Air-Gapped Security</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </div>
-            <h4>Privacy by Design</h4>
-            <p>
-              100% on-device processing. Camera data never leaves hardware memory and is never uploaded, recorded, or shared.
-            </p>
-          </div>
-
-          <div className="bento-security-badge">
-            <span className="security-green-dot" />
-            <span>Zero Cloud Storage</span>
-          </div>
-        </div>
-
-        {/* Card 4: Neural ARKit Tracking (Span 2) */}
-        <div className="bento-card span-2">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Apple Neural Engine</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
-            </div>
-            <h4>60 FPS TrueDepth Face Tracking</h4>
-            <p>
-              Leverages ARKit 4.0 to stream 52 facial blendshapes in real time with sub-millimeter precision. The proprietary CoreML model seamlessly differentiates unconscious blinks from deliberate combat triggers.
-            </p>
-          </div>
-
-          <div className="bento-tech-metrics">
-            <div className="metric-pill"><span>Sampling Rate</span><strong>60 Hz</strong></div>
-            <div className="metric-pill"><span>Inference Latency</span><strong>2.1 ms</strong></div>
-            <div className="metric-pill"><span>Blendshapes</span><strong>52 Points</strong></div>
-          </div>
-        </div>
+export default function Features() {
+  return (
+    <section className="feature" id="features">
+      <div className="container feature-grid">
+        <Reveal className="feature-copy">
+          <span className="eyebrow">The mechanic</span>
+          <h2 className="feature-title">Blink to fire.</h2>
+          <p className="feature-desc">
+            A quick double-blink pulls the trigger. An on-device machine-learning model
+            can tell a combat blink from an accidental one, so nothing fires by mistake.
+            And because every shot demands a full, deliberate blink, your tear film gets
+            refreshed with every hit.
+          </p>
+        </Reveal>
+        <Reveal className="feature-visual" delay={120}>
+          <CannonDemo />
+        </Reveal>
       </div>
     </section>
   )

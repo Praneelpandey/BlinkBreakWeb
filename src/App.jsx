@@ -1,33 +1,32 @@
-import Navbar from './components/Navbar'
+import Nav from './components/Nav'
 import Hero from './components/Hero'
-import SocialProof from './components/SocialProof'
 import Features from './components/Features'
-import CommandConsole from './components/CommandConsole'
-import BlinkSimulator from './components/BlinkSimulator'
-import ScienceSection from './components/ScienceSection'
-import ProgressionDashboard from './components/ProgressionDashboard'
-import TechSpecs from './components/TechSpecs'
+import Flight from './components/Flight'
+import Beyond from './components/Beyond'
+import BlinkLab from './components/BlinkLab'
+import Science from './components/Science'
+import Fleet from './components/Fleet'
+import Specs from './components/Specs'
+import DownloadCTA from './components/DownloadCTA'
 import Footer from './components/Footer'
-import GridBackground from './components/GridBackground'
 
-function App() {
+export default function App() {
   return (
     <>
-      <GridBackground />
-      <Navbar />
-      <main>
+      <a className="skip-link" href="#main">Skip to content</a>
+      <Nav />
+      <main id="main">
         <Hero />
-        <SocialProof />
         <Features />
-        <CommandConsole />
-        <BlinkSimulator />
-        <ScienceSection />
-        <ProgressionDashboard />
-        <TechSpecs />
+        <Flight />
+        <Beyond />
+        <BlinkLab />
+        <Science />
+        <Fleet />
+        <Specs />
+        <DownloadCTA />
       </main>
       <Footer />
     </>
   )
 }
-
-export default App
