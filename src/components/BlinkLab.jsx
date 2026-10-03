@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Reveal from './Reveal'
 
 const TIERS = [
-  { max: 200, label: 'S-TIER PILOT', note: 'Faster than a fighter jet ejection seat.' },
+  { max: 200, label: 'S-TIER PILOT', note: 'Faster than a fighter-jet ejection seat.' },
   { max: 300, label: 'A-TIER PILOT', note: 'Well inside combat blink range.' },
   { max: Infinity, label: 'B-TIER PILOT', note: 'Room to train — the fleet awaits.' },
 ]
@@ -57,53 +57,18 @@ export default function BlinkLab() {
   const best = history.length ? Math.min(...history) : null
 
   return (
-    <section className="lab section" id="lab">
+    <section className="lab" id="lab">
       <div className="container">
         <Reveal className="section-head">
-          <span className="overline">Reflex lab</span>
-          <h2>
-            How fast is <span className="text-gradient">your blink?</span>
-          </h2>
+          <span className="eyebrow">Reflex Lab</span>
+          <h2>How fast is your blink?</h2>
           <p className="section-sub">
-            The in-browser version of the pilot entry exam. Hold steady, wait for lock-on,
-            then blink — or hit <kbd className="kbd">SPACE</kbd>.
+            The pilot entrance exam, right in your browser. Arm the target, wait for lock,
+            then blink — or hit <kbd className="kbd">Space</kbd>.
           </p>
         </Reveal>
 
         <Reveal className="lab-shell">
-          {/* left — trial log */}
-          <aside className="lab-side">
-            <div className="lab-panel">
-              <span className="lab-panel-title mono-tag">TRIAL LOG</span>
-              {history.length === 0 ? (
-                <p className="lab-empty">No trials yet. The cockpit is waiting.</p>
-              ) : (
-                <ul className="lab-history">
-                  {history.map((ms, i) => (
-                    <li key={i} className={ms === best ? 'is-best' : ''}>
-                      <span>{i === 0 ? 'LAST' : `T−${i}`}</span>
-                      <strong>{ms} ms</strong>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {best !== null && (
-                <div className="lab-best">
-                  <span>PERSONAL BEST</span>
-                  <strong>{best} ms</strong>
-                </div>
-              )}
-            </div>
-            <div className="lab-panel">
-              <span className="lab-panel-title mono-tag">WHY IT MATTERS</span>
-              <p>
-                In the app, this reaction window is your combat trigger. Training it here
-                trains the full-closure blinks your tear film depends on.
-              </p>
-            </div>
-          </aside>
-
-          {/* center — pad */}
           <div
             className={`lab-pad lab-pad--${state}`}
             onClick={() => (state === 'idle' || state === 'result') ? arm() : blink()}
@@ -112,10 +77,10 @@ export default function BlinkLab() {
             onKeyDown={(e) => {
               if (e.key === 'Enter') (state === 'idle' || state === 'result') ? arm() : blink()
             }}
-            aria-label="Blink reaction test — click to start, click or press space when the target locks"
+            aria-label="Blink reaction test — click to arm, then click or press space when the target locks on"
           >
             {state === 'idle' && (
-              <div className="lab-pad-content">
+              <div className="lab-content">
                 <span className="lab-ring" />
                 <h3>Reflex simulator ready</h3>
                 <p>Arm the target to begin</p>
@@ -123,42 +88,63 @@ export default function BlinkLab() {
               </div>
             )}
             {state === 'armed' && (
-              <div className="lab-pad-content">
+              <div className="lab-content">
                 <span className="lab-ring lab-ring--scan" />
                 <p className="lab-waiting">Focusing… hold steady</p>
               </div>
             )}
             {state === 'lock' && (
-              <div className="lab-pad-content">
+              <div className="lab-content">
                 <span className="lab-ring lab-ring--lock" />
                 <h3 className="lab-lock">BLINK NOW</h3>
                 <p>Click or hit space</p>
               </div>
             )}
             {state === 'early' && (
-              <div className="lab-pad-content">
+              <div className="lab-content">
                 <span className="lab-ring lab-ring--early" />
-                <h3 className="lab-early">TOO EARLY</h3>
+                <h3 className="lab-early">Too early</h3>
                 <p>Wait for lock-on, pilot</p>
               </div>
             )}
             {state === 'result' && reaction !== null && (
-              <div className="lab-pad-content">
-                <span className={`lab-tier ${reaction === best ? 'is-best' : ''}`}>{tier.label}</span>
+              <div className="lab-content">
+                <span className="lab-tier">{tier.label}</span>
                 <div className="lab-score">
                   {reaction}
                   <span className="lab-score-unit">ms</span>
                 </div>
                 <p className="lab-note">{tier.note}</p>
-                <span className="btn btn--ghost btn--sm lab-arm">Run another trial</span>
+                <span className="btn btn--primary btn--sm lab-arm">Run another trial</span>
               </div>
             )}
           </div>
 
-          {/* right — pipeline */}
-          <aside className="lab-side">
+          <div className="lab-panels">
             <div className="lab-panel">
-              <span className="lab-panel-title mono-tag">IN THE APP</span>
+              <span className="lab-panel-title">Trial log</span>
+              {history.length === 0 ? (
+                <p className="lab-empty">No trials yet. The cockpit is waiting.</p>
+              ) : (
+                <>
+                  <ul className="lab-history">
+                    {history.map((ms, i) => (
+                      <li key={i} className={ms === best ? 'is-best' : ''}>
+                        <span>{i === 0 ? 'Last' : `Trial −${i}`}</span>
+                        <strong>{ms} ms</strong>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="lab-best">
+                    <span>Personal best</span>
+                    <span>{best} ms</span>
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="lab-panel">
+              <span className="lab-panel-title">In the app</span>
               <ol className="lab-pipeline">
                 <li>
                   <strong>TrueDepth scan</strong>
@@ -174,7 +160,7 @@ export default function BlinkLab() {
                 </li>
               </ol>
             </div>
-          </aside>
+          </div>
         </Reveal>
       </div>
     </section>

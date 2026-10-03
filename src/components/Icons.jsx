@@ -1,4 +1,5 @@
-/* Shared SVG icon set — 24x24 grid, stroke-based, inherits currentColor */
+/* Minimal icon set — consistent 1.8px stroke, inherits currentColor.
+   Only what the page actually uses. */
 
 const base = {
   fill: 'none',
@@ -16,147 +17,36 @@ export function AppleIcon({ size = 20, ...props }) {
   )
 }
 
-export function EyeIcon({ size = 24, ...props }) {
+export function ChevronRightIcon({ size = 15, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" />
-      <circle cx="12" cy="12" r="3.2" />
+    <svg width={size} height={size} viewBox="0 0 24 24" {...base} strokeWidth={2.2} {...props}>
+      <path d="m9 5 7 7-7 7" />
     </svg>
   )
 }
 
-export function BoltIcon({ size = 24, ...props }) {
+export function ChevronDownIcon({ size = 15, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H12L13 2z" />
+    <svg width={size} height={size} viewBox="0 0 24 24" {...base} strokeWidth={2.2} {...props}>
+      <path d="M5 9l7 7 7-7" />
     </svg>
   )
 }
 
-export function ShieldIcon({ size = 24, ...props }) {
+export function LockIcon({ size = 12, ...props }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.4 7.5 10 4.3-1.6 7.5-5.4 7.5-10v-6L12 2.5z" />
-      <path d="m9 12 2 2 4-4.5" />
-    </svg>
-  )
-}
-
-export function GaugeIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M4 14a8 8 0 1 1 16 0" />
-      <path d="m12 14 4.5-4.5" />
-      <circle cx="12" cy="14" r="1.6" />
-      <path d="M2.5 19.5h19" />
-    </svg>
-  )
-}
-
-export function TiltIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <rect x="7.5" y="4" width="9" height="16" rx="2" />
-      <path d="M2.8 9.5a9.6 9.6 0 0 0 0 5M21.2 9.5a9.6 9.6 0 0 1 0 5" />
-    </svg>
-  )
-}
-
-export function LockIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
+    <svg width={size} height={size} viewBox="0 0 24 24" {...base} strokeWidth={2.4} {...props}>
       <rect x="5" y="10.5" width="14" height="10" rx="2.5" />
       <path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" />
     </svg>
   )
 }
 
-export function SparkIcon({ size = 14, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M12 0c.9 6.9 4.2 10.2 12 12-7.8 1.8-11.1 5.1-12 12-.9-6.9-4.2-10.2-12-12C7.8 10.2 11.1 6.9 12 0z" />
-    </svg>
-  )
-}
-
-export function AwardIcon({ size = 24, ...props }) {
+export function TiltIcon({ size = 26, ...props }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <circle cx="12" cy="9" r="6" />
-      <path d="m8.5 14-1.5 7.5L12 19.5l5 2L15.5 14" />
-    </svg>
-  )
-}
-
-export function ArrowRightIcon({ size = 16, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M4 12h16M13 5l7 7-7 7" />
-    </svg>
-  )
-}
-
-export function ArrowDownIcon({ size = 16, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M12 4v16M5 13l7 7 7-7" />
-    </svg>
-  )
-}
-
-export function PlayIcon({ size = 16, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}>
-      <path d="M7 4.8v14.4c0 .8.9 1.3 1.6.9l11-7.2c.6-.4.6-1.4 0-1.8l-11-7.2C7.9 3.5 7 4 7 4.8z" />
-    </svg>
-  )
-}
-
-export function ChartIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M4 20V10M10 20V4M16 20v-8M21 20H3" />
-    </svg>
-  )
-}
-
-export function ChipIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <rect x="7" y="7" width="10" height="10" rx="2" />
-      <path d="M10 2.5v3M14 2.5v3M10 18.5v3M14 18.5v3M2.5 10h3M2.5 14h3M18.5 10h3M18.5 14h3" />
-    </svg>
-  )
-}
-
-export function AudioIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 10.5v3" />
-    </svg>
-  )
-}
-
-export function ShipIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M12 2.5 15 9l6.5 3.5L15 16l-3 5.5L9 16l-6.5-3.5L9 9l3-6.5z" />
-    </svg>
-  )
-}
-
-export function FlameIcon({ size = 24, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="M12 2.5S6 8 6 13.5a6 6 0 0 0 12 0c0-2-1-3.8-2.2-5.4-.6 1.2-1.5 2-2.3 2.4.4-2.6-.4-6-1.5-8z" />
-    </svg>
-  )
-}
-
-export function CheckIcon({ size = 16, ...props }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" {...base} {...props}>
-      <path d="m4.5 12.5 5 5 10-11" />
+      <rect x="7.5" y="4" width="9" height="16" rx="2" />
+      <path d="M2.8 9.5a9.6 9.6 0 0 0 0 5M21.2 9.5a9.6 9.6 0 0 1 0 5" />
     </svg>
   )
 }

@@ -25,6 +25,13 @@ npm run preview  # serve the production build
   Open Graph / Twitter meta tags in `index.html`.
 - **Page title / description** — edit the `<title>` and meta tags in `index.html`.
 
+## Design system
+
+Apple product-page language: white / `#f5f5f7` surfaces, near-black `#1d1d1f` ink, one
+indigo accent (`#5856d6`), system font stack (no webfonts), 8pt spacing scale, and a
+tuned dark mode via `prefers-color-scheme`. All tokens live in `:root` at the top of
+`src/index.css`.
+
 ## Project structure
 
 ```
