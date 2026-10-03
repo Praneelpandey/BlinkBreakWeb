@@ -1,122 +1,185 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Reveal from './Reveal'
+import { EyeIcon, TiltIcon, ShieldIcon, GaugeIcon, FlameIcon } from './Icons'
 
-export default function Features() {
-  const [laserActive, setLaserActive] = useState(false)
+/* Interactive card: fire the cannons with a double-click / double "B" */
+function CannonCard() {
+  const [charge, setCharge] = useState(0) // 0 idle · 1 first blink · 2 fired
+  const [shots, setShots] = useState(0)
+  const [firing, setFiring] = useState(false)
+  const lastBlinkRef = useRef(0)
+  const resetRef = useRef(null)
 
-  const triggerLaser = () => {
-    setLaserActive(true)
-    setTimeout(() => setLaserActive(false), 700)
+  const fire = () => {
+    const now = performance.now()
+    const isDouble = now - lastBlinkRef.current < 650
+    lastBlinkRef.current = now
+
+    clearTimeout(resetRef.current)
+
+    if (isDouble) {
+      lastBlinkRef.current = 0
+      setCharge(2)
+      setShots((s) => s + 1)
+      setFiring(true)
+      resetRef.current = setTimeout(() => {
+        setFiring(false)
+        setCharge(0)
+      }, 850)
+    } else {
+      setCharge(1)
+      resetRef.current = setTimeout(() => setCharge((c) => (c === 1 ? 0 : c)), 650)
+    }
   }
 
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key.toLowerCase() === 'b') fire()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      clearTimeout(resetRef.current)
+    }
+  })
+
   return (
-    <section id="features" className="features">
-      <div className="section-header center">
-        <span className="apple-overline">INNOVATIVE ARCHITECTURE</span>
-        <h3>Engineered for Precision & Ergonomics</h3>
-        <p className="section-subtext">
-          Every game mechanic directly translates into an ocular health intervention.
-        </p>
+    <div className={`bento bento--cannon ${firing ? 'is-firing' : ''}`}>
+      <div className="bento-head">
+        <span className="bento-icon bento-icon--red"><EyeIcon size={22} /></span>
+        <span className="mono-tag">CORE MECHANIC</span>
       </div>
+      <h3>Double-blink cannons</h3>
+      <p>
+        A deliberate double-blink pulls the trigger. The on-device CoreML classifier tells
+        intentional triggers apart from involuntary blinks — you only fire when you mean it,
+        and every full closure spreads a fresh layer of tear film across your cornea.
+      </p>
 
-      <div className="bento-grid">
-        {/* Card 1: Weaponized Blinking (Span 2) */}
-        <div className={`bento-card span-2 ${laserActive ? 'laser-firing' : ''}`} onClick={triggerLaser}>
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Clinical Innovation</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-                <line x1="12" y1="9" x2="12" y2="15" />
-                <line x1="9" y1="12" x2="15" y2="12" />
-              </svg>
-            </div>
-            <h4>Weaponized Blinking</h4>
-            <p>
-              Fire your laser cannons with an intentional double-blink. Each complete palpebral closure activates meibomian lipid secretion, spreading a fresh protective tear film over the cornea to eradicate dry eyes.
-            </p>
-          </div>
-
-          <div className="bento-interactive-footer">
-            <button className="btn-bento-action" onClick={(e) => { e.stopPropagation(); triggerLaser(); }}>
-              {laserActive ? 'Cannon Discharged ✓' : 'Test Double-Blink Laser'}
-            </button>
-            <span className="bento-stat-chip">Tear Layer Refresh +100%</span>
-          </div>
+      <div className="cannon-demo" onClick={fire} role="button" tabIndex={0}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && fire()}
+        aria-label="Try the double-blink trigger">
+        <div className="cannon-sky">
+          <span className={`cannon-ship ${charge >= 1 ? 'is-charged' : ''}`} />
+          <span className="cannon-beam cannon-beam--a" />
+          <span className="cannon-beam cannon-beam--b" />
+          <span className="cannon-boom" />
+          {[...Array(5)].map((_, i) => (
+            <span key={i} className="cannon-star" style={{ '--i': i }} />
+          ))}
         </div>
-
-        {/* Card 2: Ghost Mode Head Tilt (Span 1) */}
-        <div className="bento-card">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Cervical Mobility</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-              </svg>
-            </div>
-            <h4>Ghost Mode Evasion</h4>
-            <p>
-              Subtle head tilts navigate around obstacles, encouraging cervical spine mobility to release neck tension and postural stiffness.
-            </p>
+        <div className="cannon-panel">
+          <div className="cannon-meter">
+            <span className={`cannon-cell ${charge >= 1 ? 'on' : ''}`} />
+            <span className={`cannon-cell ${charge >= 2 ? 'on' : ''}`} />
           </div>
-
-          <div className="bento-gyro-bar">
-            <div className="gyro-track"><div className="gyro-dot" /></div>
-            <span className="gyro-label">6-Axis Spatial Tracking</span>
-          </div>
+          <span className="cannon-hint mono-tag">
+            {charge === 0 && 'click twice — or tap B twice'}
+            {charge === 1 && 'blink again…'}
+            {charge >= 2 && 'CANNONS FIRED'}
+          </span>
+          <span className="cannon-shots mono-tag">{shots} shots</span>
         </div>
+      </div>
+    </div>
+  )
+}
 
-        {/* Card 3: Privacy by Design (Span 1) */}
-        <div className="bento-card">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Air-Gapped Security</div>
+export default function Features() {
+  return (
+    <section className="features section" id="features">
+      <div className="container">
+        <Reveal className="section-head">
+          <span className="overline">Why it feels different</span>
+          <h2>
+            Every mechanic is <span className="text-gradient">an eye exercise.</span>
+          </h2>
+          <p className="section-sub">
+            Nothing here is a reminder nudging you to behave. The therapy is hidden inside the
+            shooting, the dodging and the scoring — so it actually gets done.
+          </p>
+        </Reveal>
 
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
+        <div className="bento-grid">
+          <Reveal className="bento-cell bento-cell--wide"><CannonCard /></Reveal>
+
+          <Reveal className="bento-cell" delay={80}>
+            <div className="bento">
+              <div className="bento-head">
+                <span className="bento-icon bento-icon--blue"><TiltIcon size={22} /></span>
+                <span className="mono-tag">MOBILITY</span>
+              </div>
+              <h3>Ghost Mode</h3>
+              <p>
+                Tilt your head to phase through obstacles. Six-axis motion keeps your neck and
+                cervical spine moving while you fly — micro-mobility against screen posture.
+              </p>
+              <div className="tilt-demo" aria-hidden="true">
+                <span className="tilt-arrow tilt-arrow--l" />
+                <span className="tilt-phone"><TiltIcon size={26} /></span>
+                <span className="tilt-arrow tilt-arrow--r" />
+              </div>
             </div>
-            <h4>Privacy by Design</h4>
-            <p>
-              100% on-device processing. Camera data never leaves hardware memory and is never uploaded, recorded, or shared.
-            </p>
-          </div>
+          </Reveal>
 
-          <div className="bento-security-badge">
-            <span className="security-green-dot" />
-            <span>Zero Cloud Storage</span>
-          </div>
-        </div>
-
-        {/* Card 4: Neural ARKit Tracking (Span 2) */}
-        <div className="bento-card span-2">
-          <div className="bento-card-glow" />
-          <div className="bento-badge-pill">Apple Neural Engine</div>
-
-          <div className="bento-card-body">
-            <div className="bento-icon-box">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2997FF" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </svg>
+          <Reveal className="bento-cell" delay={140}>
+            <div className="bento">
+              <div className="bento-head">
+                <span className="bento-icon bento-icon--green"><ShieldIcon size={22} /></span>
+                <span className="mono-tag">PRIVACY</span>
+              </div>
+              <h3>Private by design</h3>
+              <p>
+                Camera frames live and die in volatile memory. Nothing is recorded, uploaded
+                or stored — your face never leaves the phone.
+              </p>
+              <ul className="bento-checklist">
+                <li>Zero cloud processing</li>
+                <li>Zero recordings</li>
+                <li>Zero accounts required</li>
+              </ul>
             </div>
-            <h4>60 FPS TrueDepth Face Tracking</h4>
-            <p>
-              Leverages ARKit 4.0 to stream 52 facial blendshapes in real time with sub-millimeter precision. The proprietary CoreML model seamlessly differentiates unconscious blinks from deliberate combat triggers.
-            </p>
-          </div>
+          </Reveal>
 
-          <div className="bento-tech-metrics">
-            <div className="metric-pill"><span>Sampling Rate</span><strong>60 Hz</strong></div>
-            <div className="metric-pill"><span>Inference Latency</span><strong>2.1 ms</strong></div>
-            <div className="metric-pill"><span>Blendshapes</span><strong>52 Points</strong></div>
-          </div>
+          <Reveal className="bento-cell" delay={200}>
+            <div className="bento">
+              <div className="bento-head">
+                <span className="bento-icon bento-icon--violet"><GaugeIcon size={22} /></span>
+                <span className="mono-tag">PERCEPTION</span>
+              </div>
+              <h3>ARKit, at 60 FPS</h3>
+              <p>
+                TrueDepth streams 52 facial blendshapes with sub-millimeter precision, so the
+                game reads a combat blink from an idle twitch before you finish it.
+              </p>
+              <div className="blend-bars" aria-hidden="true">
+                {[...Array(12)].map((_, i) => (
+                  <span key={i} style={{ '--i': i }} />
+                ))}
+              </div>
+            </div>
+          </Reveal>
+
+          <Reveal className="bento-cell" delay={260}>
+            <div className="bento">
+              <div className="bento-head">
+                <span className="bento-icon bento-icon--amber"><FlameIcon size={22} /></span>
+                <span className="mono-tag">RETENTION</span>
+              </div>
+              <h3>Habit engine</h3>
+              <p>
+                Daily flights, streaks and a hangar full of ships to unlock. The dry-eye
+                routine you keep because it&apos;s a game you actually want to open.
+              </p>
+              <div className="streak-row" aria-hidden="true">
+                {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
+                  <span key={i} className={`streak-day ${i < 5 ? 'done' : ''}`}>
+                    {d}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
